@@ -1,0 +1,405 @@
+---
+output: 
+  revealjs::revealjs_presentation:
+    theme: white
+    transition: none
+    css: custom.css
+    self_contained: false
+    center: true
+    reveal_plugins: ["notes"]
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE, message=FALSE, error=FALSE, dpi = 400,fig.cap = "", cache = T, echo=TRUE)
+library(tidyverse)
+library(glue)
+```
+
+## Winter School 2018, Vienna {data-background-image="small1.jpg" data-background-size="100%" .textbox}
+
+---------------------------------------------------------------------
+
+## Data analysis for Uralists {data-background-image="small.jpg" data-background-size="100%" .textbox}
+### About emerging possibilities
+
+### Niko Partanen
+
+
+# Introduction
+
+---------------------------------------------------------------------
+
+- Me, me, me
+- Selfish advertising
+- Some background
+
+
+<aside class="notes">
+
+- A linguist with MA in Finno-Ugristics
+- Komi is an Uralic language
+    - Occasionally I also touch Udmurt and Karelian
+- I've worked last year in LATTICE laboratory in Paris
+    - Work there focuses to dependency parsing
+
+</aside>
+
+---------------------------------------------------------------------
+
+## How do we work with these languages?
+
+## What kind of data we have?
+
+## What we do with that data?
+
+# Some examples and suggestions
+
+## Skipping the interfaces
+
+> - Learning ordinary tools of data analysis
+    - Primarily R and/or Python?
+> - Thinking how to represent linguistic data
+    - What is different? What is same?
+> - Applying these workflows into linguistic data
+> - 80% general, 20% domain specific (said someone in Twitter)
+
+# Suomen kielen näytteitä
+
+##
+
+> Kotimaisten kielten keskus (2014). Suomen kielen näytteitä -korpuksen Helsinki-Korp-versio [tekstikorpus]. Kielipankki. Saatavilla http://urn.fi/urn:nbn:fi:lb-2016042702
+
+## {data-background="https://imgur.com/26xOFi5.png" data-background-size="90%"}
+
+## {data-background="https://imgur.com/aL6yc5v.png" data-background-size="90%"}
+
+```{r, echo=FALSE}
+
+library(leaflet)
+library(htmlwidgets)
+library(widgetframe)
+
+
+location_map <- read_csv("../finnicdata/data/skn_paikat.csv") %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(popup = ~paikka, radius = 5, color = "black", weight = 2, fillColor = "gray")
+
+```
+
+##
+
+```{r, echo=FALSE}
+frameWidget(location_map, height = 700)
+```
+
+```{r read_skn_rds, echo=FALSE, cache=TRUE}
+skn <- read_rds("../finnicdata/data/skn_df.rds") %>% rename(token_norm = sane,
+               token_orig = alkup,
+               token = norm,
+               morph = msd,
+               time_rec = nauhoitusaika,
+               participant = puhuja,
+               gender = sukupuoli,
+               dialect = murre,
+               dialect_area = murrealue,
+               role = rooli) %>%
+  left_join(read_csv("../finnicdata/data/skn_paikat.csv")) %>%
+  rename(country = maa,
+         location = paikka,
+         latitude = lat,
+         longitude = lon) %>%
+  arrange(id, position) %>%
+  filter(role == "haastateltava") %>%
+  mutate(time_rec = as.numeric(time_rec)) %>%
+  select(token, token_norm, location, time_rec, everything())
+```
+
+##
+
+```{r}
+skn %>% select(token)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm, location)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm, location, time_rec)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm, location, time_rec, participant, dialect_area)
+```
+
+## This is what metadata is for!
+
+##
+
+```{r}
+skn %>% select(token, token_norm)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm, lemma)
+```
+
+##
+
+```{r}
+skn %>% select(token, token_norm, lemma, pos, morph)
+```
+
+
+##
+
+```{r}
+skn %>% select(token, token_norm, lemma, pos, morph, dephead, deprel)
+```
+
+##
+
+- One observation is one row
+- One token is one observation
+- One phoneme works well too
+<!-- - [All audio is also available!](https://lat.csc.fi/ds/annex/runLoader?nodeid=MPI7571%23&time=50629&duration=21106&tiername=RJ-original)-->
+
+## {data-background="https://imgur.com/8sTjpdV.png"}
+
+##
+
+```{r, echo=TRUE}
+skn_plot <- ggplot(data = skn,
+                   aes(x = time_rec)) +
+                   geom_bar()
+```
+
+##
+
+```{r, echo=FALSE}
+skn_plot
+```
+
+##
+
+```{r}
+skn %>% filter(token_norm == "metsä")
+```
+
+##
+
+```{r}
+skn %>% filter(lemma == "syödä" & morph == "PRS_Sg3|VOICE_Act|TENSE_Prs|MOOD_Ind")
+```
+
+##
+
+```{r}
+skn %>% filter(str_detect(token_norm, "^metsä"))
+```
+
+##
+
+```{r}
+skn %>% filter(str_detect(token, ".+stä$"))
+```
+
+##
+
+```{r}
+skn %>% filter(lemma =="metsä" & str_detect(morph, "CASE_Ill"))
+```
+
+## 
+
+- In principle any queries can be written this way
+- Eventually gets complicated, but what doesn't? 
+
+# Kettunen
+
+## Traditional view {data-background-image="kett001.png" data-background-size="50%" .textbox}
+
+##
+
+- [Kettunen's dialect atlas](https://avaa.tdata.fi/web/kotus/aineistot) has been made available with CC-BY license. 
+
+## Combining the approaches
+
+##
+
+```{r}
+source("https://raw.githubusercontent.com/langdoc/finnic_atlas/master/R/map_finnic.R")
+frameWidget(map_finnic(1))
+```
+
+##
+
+```{r}
+library(ggplot2)
+library(ggmap)
+
+finland <- c(left = 18, bottom = 58, right = 33, top = 71)
+map <- get_stamenmap(finland, zoom = 5, maptype = "toner-lite")
+
+clusters <- skn %>%
+  filter(str_detect(token_norm, "^(pl|pr|kl|kr)")) %>%
+  mutate(variable = str_extract(token_norm, "^.{2}")) %>%
+  select(variable, everything()) %>%
+  distinct(variable, location, .keep_all = TRUE)
+
+clusters_rare <- skn %>%
+  filter(str_detect(token_norm, "^(sk|st||sp)")) %>%
+  mutate(variable = str_extract(token_norm, "^.{2}")) %>%
+  select(variable, everything()) %>%
+  distinct(variable, location, .keep_all = TRUE)
+```
+
+##
+
+```{r}
+ggmap(ggmap = map) +
+  geom_point(data = clusters, 
+             aes(x = longitude, y = latitude, color = variable)) +
+  facet_grid(. ~ variable) +
+  theme(axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank())
+
+```
+
+
+# Back to Komi
+
+```{r}
+komi_settlements <- read_csv("https://raw.githubusercontent.com/langdoc/kpv-geography/master/kpv.csv") %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(popup = ~settlement, radius = 5, color = "black", weight = 2, fillColor = "gray")
+
+```
+
+```{r}
+frameWidget(komi_settlements)
+```
+
+## Question
+
+> Vebs in third person plural can have in past tense varying realizations: muniny ~ munisny ~ muninys ~ munisnys are all legit. What is going on?
+
+##
+
+![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-7.png)
+
+##
+
+![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-9.png)
+
+##
+
+![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-7.png)
+
+##
+
+![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-6.png)
+
+## Thank you! {data-background-image="https://upload.wikimedia.org/wikipedia/commons/d/dc/La_Nature_se_d%C3%A9voilant_a_la_Science%2C_Mus%C3%A9e_d%27Orsay%2C_photo_by_emilee_rader_2.jpg" data-background-size="100%" .textbox}
+
+
+##
+
+Image [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:La_Nature_se_d%C3%A9voilant_a_la_Science,_Mus%C3%A9e_d%27Orsay,_photo_by_emilee_rader_2.jpg).
+
+<!--
+# unused
+
+```{r}
+skn %>% filter(str_detect(token, "δ")) %>% count(location, time_rec)
+
+skn %>% filter(str_detect(token, "δ")) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(popup = ~location)
+```
+
+##
+
+```{r}
+skn %>%
+  filter(str_detect(token_norm, "^kakso.+")) %>%
+  count(location)
+
+skn %>%
+  filter(str_detect(token_norm, "^metsä.+")) %>%
+  count(location)
+
+skn %>%
+  filter(lemma == "metsä" &  morph == "NUM_Sg|CASE_Nom") %>%
+  mutate(variable = str_extract(token_orig, "(?<=e)[^äÄ]+(?=(ä|Ä|ä̀)?)")) %>%
+  mutate(variable = str_replace_all(variable, "§", "")) %>%
+  select(variable, everything()) %>%
+  distinct(variable, location, .keep_all = TRUE) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addLabelOnlyMarkers(~jitter(longitude, 20), ~jitter(latitude, 20), 
+                      label =  ~as.character(variable), 
+                      labelOptions = labelOptions(noHide = T, 
+                                                  direction = 'top', 
+                                                  textOnly = T))
+
+
+skn %>%
+  filter(token_norm == "ohra") %>%
+  distinct(token, location, .keep_all = TRUE) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addLabelOnlyMarkers(~longitude, ~latitude, 
+                      label =  ~as.character(token), 
+                      labelOptions = labelOptions(noHide = T, 
+                                                  direction = 'top', 
+                                                  textOnly = T))
+```
+
+
+##
+
+> Variable `ts` in word *metsä* can be found between phoneme sequences [e] and [ä]. The [e] has no variation in this context, but [ä] can be realized in various lengths or zero.
+
+##
+
+```{r}
+
+skn %>%
+  filter(lemma == "metsä" &  morph == "NUM_Sg|CASE_Nom") %>%
+  mutate(variable = str_extract(token_orig, "(?<=e)[^äÄ]+(?=(ä|Ä|ä̀)?)")) %>%
+  mutate(variable = str_replace_all(variable, "§", "")) %>%
+  select(variable, everything()) %>%
+  distinct(variable, location, .keep_all = TRUE) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addLabelOnlyMarkers(~jitter(longitude, 20), ~jitter(latitude, 20), 
+                      label =  ~as.character(variable), 
+                      labelOptions = labelOptions(noHide = T, 
+                                                  direction = 'top', 
+                                                  textOnly = T))
+
+
+```
+
+-->
