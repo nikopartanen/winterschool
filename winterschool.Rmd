@@ -52,7 +52,7 @@ library(glue)
 
 ## What kind of data we have?
 
-## What we do with that data?
+## What do we do with that data?
 
 # Some examples and suggestions
 
@@ -63,7 +63,8 @@ library(glue)
 > - Thinking how to represent linguistic data
     - What is different? What is same?
 > - Applying these workflows into linguistic data
-> - 80% general, 20% domain specific (said someone in Twitter)
+> - 80% general, 20% domain specific
+    - (said someone in Twitter)
 
 # Suomen kielen näytteitä
 
@@ -234,7 +235,7 @@ skn %>% filter(lemma =="metsä" & str_detect(morph, "CASE_Ill"))
 
 # Kettunen
 
-## Traditional view {data-background-image="kett001.png" data-background-size="50%" .textbox}
+## Traditional view {data-background-image="http://kettunen.fnhost.org/pien_png/kett001.png" data-background-size="50%" .textbox}
 
 ##
 
@@ -265,7 +266,7 @@ clusters <- skn %>%
   distinct(variable, location, .keep_all = TRUE)
 
 clusters_rare <- skn %>%
-  filter(str_detect(token_norm, "^(sk|st||sp)")) %>%
+  filter(str_detect(token_norm, "^(sk|st|sp)")) %>%
   mutate(variable = str_extract(token_norm, "^.{2}")) %>%
   select(variable, everything()) %>%
   distinct(variable, location, .keep_all = TRUE)
@@ -273,7 +274,7 @@ clusters_rare <- skn %>%
 
 ##
 
-```{r}
+```{r, echo=FALSE}
 ggmap(ggmap = map) +
   geom_point(data = clusters, 
              aes(x = longitude, y = latitude, color = variable)) +
@@ -284,10 +285,26 @@ ggmap(ggmap = map) +
 
 ```
 
+##
+
+```{r, echo=FALSE}
+ggmap(ggmap = map) +
+  geom_point(data = clusters_rare, 
+             aes(x = longitude, y = latitude, color = variable)) +
+  facet_grid(. ~ variable) +
+  theme(axis.title=element_blank(),
+        axis.text=element_blank(),
+        axis.ticks=element_blank())
+
+```
+
+
 
 # Back to Komi
 
-```{r}
+##
+
+```{r, echo=FALSE}
 komi_settlements <- read_csv("https://raw.githubusercontent.com/langdoc/kpv-geography/master/kpv.csv") %>%
   leaflet() %>%
   addTiles() %>%
@@ -301,7 +318,7 @@ frameWidget(komi_settlements)
 
 ## Question
 
-> Vebs in third person plural can have in past tense varying realizations: muniny ~ munisny ~ muninys ~ munisnys are all legit. What is going on?
+> Verbs in third person plural can have varying realization in the past tense: muniny ~ munisny ~ muninys ~ munisnys are all legit. What is going on?
 
 ##
 
