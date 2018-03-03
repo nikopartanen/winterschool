@@ -17,11 +17,11 @@ library(tidyverse)
 library(glue)
 ```
 
-## Winter School 2018, Vienna {data-background-image="small1.jpg" data-background-size="100%" .textbox}
+## Winter School 2018, Vienna {data-background-image="map_small1.jpg" data-background-size="100%" .textbox}
 
 ---------------------------------------------------------------------
 
-## Data analysis for Uralists {data-background-image="small.jpg" data-background-size="100%" .textbox}
+## Data analysis for Uralists {data-background-image="map_small2.jpg" data-background-size="100%" .textbox}
 ### About emerging possibilities
 
 ### Niko Partanen
@@ -235,7 +235,7 @@ skn %>% filter(lemma =="metsä" & str_detect(morph, "CASE_Ill"))
 
 # Kettunen
 
-## Traditional view {data-background-image="http://kettunen.fnhost.org/pien_png/kett001.png" data-background-size="50%" .textbox}
+## Traditional view {data-background-image="kett001_clusters.png" data-background-size="40%" .textbox}
 
 ##
 
@@ -299,16 +299,80 @@ ggmap(ggmap = map) +
 ```
 
 
+##
+
+> Variable `ts` in the word *metsä* can be found between phoneme sequences [e] and [ä]. The [e] has no variation in this context, but [ä] can be realized in various lengths or zero.
+
+##
+
+```{r}
+
+metsa_plot <- skn %>%
+  filter(lemma == "metsä" &  morph == "NUM_Sg|CASE_Nom") %>%
+  mutate(variable = str_extract(token_orig, "(?<=e)[^äÄ]+(?=(ä|Ä|ä̀)?)")) %>%
+  mutate(variable = str_replace_all(variable, "§", "")) %>%
+  select(variable, everything()) %>%
+  distinct(variable, location, .keep_all = TRUE) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addLabelOnlyMarkers(~jitter(longitude, 20), ~jitter(latitude, 20), 
+                      label =  ~as.character(variable), 
+                      labelOptions = labelOptions(noHide = T, 
+                                                  direction = 'top', 
+                                                  textOnly = T))
+
+```
+
+##
+
+```{r}
+frameWidget(metsa_plot, height = 700)
+```
+
+##
+
+> 'Ohra' in Finnish is a good word
+
+##
+
+![](kett021_ohra.png)
+
+##
+
+```{r}
+ohra_map <- skn %>%
+  filter(token_norm == "ohra") %>%
+  distinct(token, location, .keep_all = TRUE) %>%
+  leaflet() %>%
+  addTiles() %>%
+  addLabelOnlyMarkers(~longitude, ~latitude, 
+                      label =  ~as.character(token), 
+                      labelOptions = labelOptions(noHide = T, 
+                                                  direction = 'top', 
+                                                  textOnly = T))
+```
+
+##
+
+```{r}
+frameWidget(ohra_map, height = 700)
+```
+
 
 # Back to Komi
 
 ##
 
 ```{r, echo=FALSE}
-komi_settlements <- read_csv("https://raw.githubusercontent.com/langdoc/kpv-geography/master/kpv.csv") %>%
-  leaflet() %>%
-  addTiles() %>%
-  addCircleMarkers(popup = ~settlement, radius = 5, color = "black", weight = 2, fillColor = "gray")
+kpv <- read_csv("https://raw.githubusercontent.com/langdoc/kpv-geography/master/kpv.csv")
+
+library(lingtypology)
+
+komi_settlements <- map.feature(languages = kpv$language,
+            features = kpv$dialect,
+            label = kpv$village,
+            latitude = kpv$latitude,
+            longitude = kpv$longitude)
 
 ```
 
@@ -330,10 +394,6 @@ frameWidget(komi_settlements)
 
 ##
 
-![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-7.png)
-
-##
-
 ![](https://nikopartanen.github.io/adv_elan_draft/Advanced-ELAN_files/figure-html/unnamed-chunk-26-6.png)
 
 ## Thank you! {data-background-image="https://upload.wikimedia.org/wikipedia/commons/d/dc/La_Nature_se_d%C3%A9voilant_a_la_Science%2C_Mus%C3%A9e_d%27Orsay%2C_photo_by_emilee_rader_2.jpg" data-background-size="100%" .textbox}
@@ -341,7 +401,15 @@ frameWidget(komi_settlements)
 
 ##
 
-Image [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:La_Nature_se_d%C3%A9voilant_a_la_Science,_Mus%C3%A9e_d%27Orsay,_photo_by_emilee_rader_2.jpg).
+Kettunen scans online: http://kettunen.fnhost.org
+
+Kotus's atlases in [Avaa Portal](https://avaa.tdata.fi/web/kotus/aineistot).
+
+Thank you image [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:La_Nature_se_d%C3%A9voilant_a_la_Science,_Mus%C3%A9e_d%27Orsay,_photo_by_emilee_rader_2.jpg).
+
+Old maps from National Library of Finland's [Doria-collection](http://www.doria.fi/handle/10024/78800).
+
+[lingtypology](https://github.com/ropensci/lingtypology) is George Moroz's wonderful R package.
 
 <!--
 # unused
@@ -396,25 +464,6 @@ skn %>%
 
 ##
 
-> Variable `ts` in word *metsä* can be found between phoneme sequences [e] and [ä]. The [e] has no variation in this context, but [ä] can be realized in various lengths or zero.
-
-##
-
-```{r}
-
-skn %>%
-  filter(lemma == "metsä" &  morph == "NUM_Sg|CASE_Nom") %>%
-  mutate(variable = str_extract(token_orig, "(?<=e)[^äÄ]+(?=(ä|Ä|ä̀)?)")) %>%
-  mutate(variable = str_replace_all(variable, "§", "")) %>%
-  select(variable, everything()) %>%
-  distinct(variable, location, .keep_all = TRUE) %>%
-  leaflet() %>%
-  addTiles() %>%
-  addLabelOnlyMarkers(~jitter(longitude, 20), ~jitter(latitude, 20), 
-                      label =  ~as.character(variable), 
-                      labelOptions = labelOptions(noHide = T, 
-                                                  direction = 'top', 
-                                                  textOnly = T))
 
 
 ```
