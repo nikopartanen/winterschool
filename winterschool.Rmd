@@ -26,12 +26,42 @@ library(glue)
 
 ### Niko Partanen
 
+# What is this?
+
+- A presentation Niko Partanen had in Winter School of Finno-Ugric studies
+- Small modifications have been made since the presentation in order to make sure everything is explained and easy to follow
+
+## How does this work?
+
+    git clone https://github.com/nikopartanen/winterschool2018
+    cd winterschool2018
+
+Download this file (LINK COMING SOON), and place it into folder called `data`. The path into file should be:
+
+> `winterschool2018/data/skn_df.rds`.
+
+`rds` file is simply a file that is nicely compressed and can be read into R either by function `read_rds()` or `readRDS()`.
+
+## RStudio
+
+- Not obligatory, but likely the easiest way to work with R is in RStudio
+- Install it from here
+- Open file `winterschool2018.Rproj` in RStudio
+- You should now have the same files open as I have on my laptop
+
+## Code blocks
+
+- The file this presentation is built from contain lots of little pieces of R code scattered into the document
+- These are important, since the analysis and exploration is done by executing these lines
+- In RStudio you can always select lines and click `Run > Run Selected Line(s)`
+- Lines starting with hashtag `#` character are comments
+- In the comments I try to explain better what is being done
 
 # Introduction
 
 ---------------------------------------------------------------------
 
-- Me, me, me
+- Me
 - Selfish advertising
 - Some background
 
@@ -43,6 +73,7 @@ library(glue)
     - Occasionally I also touch Udmurt and Karelian
 - I've worked last year in LATTICE laboratory in Paris
     - Work there focuses to dependency parsing
+- I'm more than happy to come teach a course about R or linguistic analysis in your institution!
 
 </aside>
 
@@ -78,25 +109,34 @@ library(glue)
 
 ```{r, echo=FALSE}
 
-library(leaflet)
-library(htmlwidgets)
-library(widgetframe)
+# Here we load some libraries
 
+library(leaflet) # for maps
+library(htmlwidgets) # for html widgets, i.e. interactive content online
+library(widgetframe) # not really needed, but this presentation template works better with this
+
+# First I read a file that contains a list of settlements that are in SKN corpus, alongside the coordinates
 
 location_map <- read_csv("../finnicdata/data/skn_paikat.csv") %>% 
   leaflet() %>%
   addTiles() %>%
   addCircleMarkers(popup = ~paikka, radius = 5, color = "black", weight = 2, fillColor = "gray")
 
+# In this point we create a map that has small circle popups for each `paikka` value in the spreadsheet.
+
 ```
 
 ##
 
 ```{r, echo=FALSE}
+# Here the map is added on its own slide
 frameWidget(location_map, height = 700)
 ```
 
 ```{r read_skn_rds, echo=FALSE, cache=TRUE}
+
+# Here the actual corpus is being read.
+
 skn <- read_rds("../finnicdata/data/skn_df.rds") %>% rename(token_norm = sane,
                token_orig = alkup,
                token = norm,
@@ -121,6 +161,7 @@ skn <- read_rds("../finnicdata/data/skn_df.rds") %>% rename(token_norm = sane,
 ##
 
 ```{r}
+# select() can be used to pick individual columns
 skn %>% select(token)
 ```
 
@@ -187,6 +228,7 @@ skn %>% select(token, token_norm, lemma, pos, morph, dephead, deprel)
 ##
 
 ```{r, echo=TRUE}
+# Plotting is also easy, once you learn the syntax
 skn_plot <- ggplot(data = skn,
                    aes(x = time_rec)) +
                    geom_bar()
@@ -201,30 +243,37 @@ skn_plot
 ##
 
 ```{r}
+# filter selects rows that match some condition
+# here the search is "everything where the normalized token is 'metsä'"
 skn %>% filter(token_norm == "metsä")
 ```
 
 ##
 
 ```{r}
+# This query has several conditions
 skn %>% filter(lemma == "syödä" & morph == "PRS_Sg3|VOICE_Act|TENSE_Prs|MOOD_Ind")
 ```
 
 ##
 
 ```{r}
+# str_detect is an easy to use regular expressions
 skn %>% filter(str_detect(token_norm, "^metsä"))
 ```
 
 ##
 
 ```{r}
+# with many Uralic languages you get really far 
+# just by matching strings
 skn %>% filter(str_detect(token, ".+stä$"))
 ```
 
 ##
 
 ```{r}
+# another example
 skn %>% filter(lemma =="metsä" & str_detect(morph, "CASE_Ill"))
 ```
 
@@ -246,6 +295,9 @@ skn %>% filter(lemma =="metsä" & str_detect(morph, "CASE_Ill"))
 ##
 
 ```{r}
+# Here I reuse a function I wrote long time ago
+# you basically need to invent everything only once
+# and most of the things someone else has already done
 source("https://raw.githubusercontent.com/langdoc/finnic_atlas/master/R/map_finnic.R")
 frameWidget(map_finnic(1))
 ```
@@ -253,18 +305,28 @@ frameWidget(map_finnic(1))
 ##
 
 ```{r}
-library(ggplot2)
+# If we want to build ggplot2-style maps, ggmap
+# is probably the easiest option
 library(ggmap)
 
+# We can get the area of Finland by defining coordinates for
+# extremities of the bounding box
 finland <- c(left = 18, bottom = 58, right = 33, top = 71)
+
+# this will download the map
 map <- get_stamenmap(finland, zoom = 5, maptype = "toner-lite")
 
+# Here we are picking up all those examples where 
+# these consonant clusters occur
 clusters <- skn %>%
   filter(str_detect(token_norm, "^(pl|pr|kl|kr)")) %>%
   mutate(variable = str_extract(token_norm, "^.{2}")) %>%
   select(variable, everything()) %>%
   distinct(variable, location, .keep_all = TRUE)
 
+# Here we are picking up all those examples where 
+# these consonant clusters occur, they are rarer,
+# so the variable created is named accordingly.
 clusters_rare <- skn %>%
   filter(str_detect(token_norm, "^(sk|st|sp)")) %>%
   mutate(variable = str_extract(token_norm, "^.{2}")) %>%
@@ -275,6 +337,7 @@ clusters_rare <- skn %>%
 ##
 
 ```{r, echo=FALSE}
+# this plots the common clusters to the map
 ggmap(ggmap = map) +
   geom_point(data = clusters, 
              aes(x = longitude, y = latitude, color = variable)) +
@@ -288,6 +351,7 @@ ggmap(ggmap = map) +
 ##
 
 ```{r, echo=FALSE}
+# this adds uncommon clusters
 ggmap(ggmap = map) +
   geom_point(data = clusters_rare, 
              aes(x = longitude, y = latitude, color = variable)) +
@@ -301,12 +365,15 @@ ggmap(ggmap = map) +
 
 ##
 
+<!-- One thing I like very much is to define the queries we try to write in plain language, just to highlight that what we are trying to do is really just commonsense thing that in the end demands more linguistic knowledge than anything else -->
+
 > Variable `ts` in the word *metsä* can be found between phoneme sequences [e] and [ä]. The [e] has no variation in this context, but [ä] can be realized in various lengths or zero.
 
 ##
 
 ```{r}
-
+# This plot contains the occurrences of word metsä,
+# but with the affricate only
 metsa_plot <- skn %>%
   filter(lemma == "metsä" &  morph == "NUM_Sg|CASE_Nom") %>%
   mutate(variable = str_extract(token_orig, "(?<=e)[^äÄ]+(?=(ä|Ä|ä̀)?)")) %>%
@@ -340,6 +407,8 @@ frameWidget(metsa_plot, height = 700)
 ##
 
 ```{r}
+# This is a comparable map for word 'ohra', now
+# with whole word
 ohra_map <- skn %>%
   filter(token_norm == "ohra") %>%
   distinct(token, location, .keep_all = TRUE) %>%
@@ -364,6 +433,8 @@ frameWidget(ohra_map, height = 700)
 ##
 
 ```{r, echo=FALSE}
+# this is just an example of how maps can be done with
+# lingtypology package
 kpv <- read_csv("https://raw.githubusercontent.com/langdoc/kpv-geography/master/kpv.csv")
 
 library(lingtypology)
@@ -381,6 +452,8 @@ frameWidget(komi_settlements)
 ```
 
 ## Question
+
+<!-- Rest of the slides are just glimpses to my ongoing Komi research, and cannot be reproduced as such. I wanted to add more content, but I had 15 minutes and had to keep it compact. Anyway there was a with to have some Komi material, so there it is. -->
 
 > Verbs in third person plural can have varying realization in the past tense: muniny ~ munisny ~ muninys ~ munisnys are all legit. What is going on?
 

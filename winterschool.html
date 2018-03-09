@@ -523,10 +523,37 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h3 id="about-emerging-possibilities">About emerging possibilities</h3>
 <h3 id="niko-partanen">Niko Partanen</h3>
 </section>
+<section><section id="what-is-this" class="title-slide slide level1"><h1>What is this?</h1></section><section id="how-does-this-work" class="slide level2">
+<h2>How does this work?</h2>
+<pre><code>git clone https://github.com/nikopartanen/winterschool2018
+cd winterschool2018</code></pre>
+<p>Download this file (LINK COMING SOON), and place it into folder called <code>data</code>. The path into file should be:</p>
+<blockquote>
+<p><code>winterschool2018/data/skn_df.rds</code>.</p>
+</blockquote>
+<p><code>rds</code> file is simply a file that is nicely compressed and can be read into R either by function <code>read_rds()</code> or <code>readRDS()</code>.</p>
+</section><section id="rstudio" class="slide level2">
+<h2>RStudio</h2>
+<ul>
+<li>Not obligatory, but likely the easiest way to work with R is in RStudio</li>
+<li>Install it from here</li>
+<li>Open file <code>winterschool2018.Rproj</code> in RStudio</li>
+<li>You should now have the same files open as I have on my laptop</li>
+</ul>
+</section><section id="code-blocks" class="slide level2">
+<h2>Code blocks</h2>
+<ul>
+<li>The file this presentation is built from contain lots of little pieces of R code scattered into the document</li>
+<li>These are important, since the analysis and exploration is done by executing these lines</li>
+<li>In RStudio you can always select lines and click <code>Run &gt; Run Selected Line(s)</code></li>
+<li>Lines starting with hashtag <code>#</code> character are comments</li>
+<li>In the comments I try to explain better what is being done</li>
+</ul>
+</section></section>
 <section><section id="introduction" class="title-slide slide level1"><h1>Introduction</h1></section><section class="slide level2">
 
 <ul>
-<li>Me, me, me</li>
+<li>Me</li>
 <li>Selfish advertising</li>
 <li>Some background</li>
 </ul>
@@ -541,6 +568,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <ul>
 <li>Work there focuses to dependency parsing</li>
 </ul></li>
+<li>I’m more than happy to come teach a course about R or linguistic analysis in your institution!</li>
 </ul>
 </aside>
 </section><section id="how-do-we-work-with-these-languages" class="slide level2">
@@ -573,11 +601,12 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2></h2>
 </section><section id="section-3" class="slide level2">
 <h2></h2>
-<div id="htmlwidget-efc4a1a457234f9b616b" style="width:100%;height:700px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-efc4a1a457234f9b616b">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-2.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-566af31c5610a4865a9b" style="width:100%;height:700px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-566af31c5610a4865a9b">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-2.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </section><section id="section-4" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token)</div></code></pre>
+<pre class="sourceCode r" id="cb2"><code class="sourceCode r"><div class="sourceLine" id="cb2-1" data-line-number="1"><span class="co"># select() can be used to pick individual columns</span></div>
+<div class="sourceLine" id="cb2-2" data-line-number="2">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 1
 ##    token     
 ##    &lt;chr&gt;     
@@ -594,7 +623,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-5" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb3"><code class="sourceCode r"><div class="sourceLine" id="cb3-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm)</div></code></pre>
+<pre class="sourceCode r" id="cb4"><code class="sourceCode r"><div class="sourceLine" id="cb4-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 2
 ##    token      token_norm
 ##    &lt;chr&gt;      &lt;chr&gt;     
@@ -611,7 +640,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-6" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb5"><code class="sourceCode r"><div class="sourceLine" id="cb5-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location)</div></code></pre>
+<pre class="sourceCode r" id="cb6"><code class="sourceCode r"><div class="sourceLine" id="cb6-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 3
 ##    token      token_norm location   
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;      
@@ -628,7 +657,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-7" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb7"><code class="sourceCode r"><div class="sourceLine" id="cb7-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location, time_rec)</div></code></pre>
+<pre class="sourceCode r" id="cb8"><code class="sourceCode r"><div class="sourceLine" id="cb8-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location, time_rec)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 4
 ##    token      token_norm location    time_rec
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt;
@@ -645,7 +674,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-8" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb9"><code class="sourceCode r"><div class="sourceLine" id="cb9-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location, time_rec, participant, dialect_area)</div></code></pre>
+<pre class="sourceCode r" id="cb10"><code class="sourceCode r"><div class="sourceLine" id="cb10-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, location, time_rec, participant, dialect_area)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 6
 ##    token      token_norm location    time_rec participant dialect_area   
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;          
@@ -664,7 +693,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>This is what metadata is for!</h2>
 </section><section id="section-9" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb11"><code class="sourceCode r"><div class="sourceLine" id="cb11-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm)</div></code></pre>
+<pre class="sourceCode r" id="cb12"><code class="sourceCode r"><div class="sourceLine" id="cb12-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 2
 ##    token      token_norm
 ##    &lt;chr&gt;      &lt;chr&gt;     
@@ -681,7 +710,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-10" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb13"><code class="sourceCode r"><div class="sourceLine" id="cb13-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma)</div></code></pre>
+<pre class="sourceCode r" id="cb14"><code class="sourceCode r"><div class="sourceLine" id="cb14-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 3
 ##    token      token_norm lemma    
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;    
@@ -698,7 +727,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-11" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb15"><code class="sourceCode r"><div class="sourceLine" id="cb15-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma, pos, morph)</div></code></pre>
+<pre class="sourceCode r" id="cb16"><code class="sourceCode r"><div class="sourceLine" id="cb16-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma, pos, morph)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 5
 ##    token      token_norm lemma     pos   morph                            
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;                            
@@ -715,7 +744,7 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## # ... with 776,912 more rows</code></pre>
 </section><section id="section-12" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb17"><code class="sourceCode r"><div class="sourceLine" id="cb17-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma, pos, morph, dephead, deprel)</div></code></pre>
+<pre class="sourceCode r" id="cb18"><code class="sourceCode r"><div class="sourceLine" id="cb18-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(token, token_norm, lemma, pos, morph, dephead, deprel)</div></code></pre>
 <pre><code>## # A tibble: 776,922 x 7
 ##    token      token_norm lemma     pos   morph              dephead deprel
 ##    &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt; &lt;chr&gt;              &lt;chr&gt;   &lt;chr&gt; 
@@ -741,15 +770,18 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2></h2>
 </section><section id="section-15" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb19"><code class="sourceCode r"><div class="sourceLine" id="cb19-1" data-line-number="1">skn_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> skn,</div>
-<div class="sourceLine" id="cb19-2" data-line-number="2">                   <span class="kw">aes</span>(<span class="dt">x =</span> time_rec)) <span class="op">+</span></div>
-<div class="sourceLine" id="cb19-3" data-line-number="3"><span class="st">                   </span><span class="kw">geom_bar</span>()</div></code></pre>
+<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><div class="sourceLine" id="cb20-1" data-line-number="1"><span class="co"># Plotting is also easy, once you learn the syntax</span></div>
+<div class="sourceLine" id="cb20-2" data-line-number="2">skn_plot &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="dt">data =</span> skn,</div>
+<div class="sourceLine" id="cb20-3" data-line-number="3">                   <span class="kw">aes</span>(<span class="dt">x =</span> time_rec)) <span class="op">+</span></div>
+<div class="sourceLine" id="cb20-4" data-line-number="4"><span class="st">                   </span><span class="kw">geom_bar</span>()</div></code></pre>
 </section><section id="section-16" class="slide level2">
 <h2></h2>
 <p><img src="winterschool_files/figure-revealjs/unnamed-chunk-13-1.png" width="3200" /></p>
 </section><section id="section-17" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb20"><code class="sourceCode r"><div class="sourceLine" id="cb20-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(token_norm <span class="op">==</span><span class="st"> &quot;metsä&quot;</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb21"><code class="sourceCode r"><div class="sourceLine" id="cb21-1" data-line-number="1"><span class="co"># filter selects rows that match some condition</span></div>
+<div class="sourceLine" id="cb21-2" data-line-number="2"><span class="co"># here the search is &quot;everything where the normalized token is &#39;metsä&#39;&quot;</span></div>
+<div class="sourceLine" id="cb21-3" data-line-number="3">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(token_norm <span class="op">==</span><span class="st"> &quot;metsä&quot;</span>)</div></code></pre>
 <pre><code>## # A tibble: 50 x 25
 ##    token token_norm location time_rec token_orig pos   morph lemma dephead
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -769,7 +801,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## #   position &lt;int&gt;, country &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
 </section><section id="section-18" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb22"><code class="sourceCode r"><div class="sourceLine" id="cb22-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st"> &quot;syödä&quot;</span> <span class="op">&amp;</span><span class="st"> </span>morph <span class="op">==</span><span class="st"> &quot;PRS_Sg3|VOICE_Act|TENSE_Prs|MOOD_Ind&quot;</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb23"><code class="sourceCode r"><div class="sourceLine" id="cb23-1" data-line-number="1"><span class="co"># This query has several conditions</span></div>
+<div class="sourceLine" id="cb23-2" data-line-number="2">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st"> &quot;syödä&quot;</span> <span class="op">&amp;</span><span class="st"> </span>morph <span class="op">==</span><span class="st"> &quot;PRS_Sg3|VOICE_Act|TENSE_Prs|MOOD_Ind&quot;</span>)</div></code></pre>
 <pre><code>## # A tibble: 93 x 25
 ##    token token_norm location time_rec token_orig pos   morph lemma dephead
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -789,7 +822,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## #   position &lt;int&gt;, country &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
 </section><section id="section-19" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb24"><code class="sourceCode r"><div class="sourceLine" id="cb24-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^metsä&quot;</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb25"><code class="sourceCode r"><div class="sourceLine" id="cb25-1" data-line-number="1"><span class="co"># str_detect is an easy to use regular expressions</span></div>
+<div class="sourceLine" id="cb25-2" data-line-number="2">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^metsä&quot;</span>))</div></code></pre>
 <pre><code>## # A tibble: 827 x 25
 ##    token token_norm location time_rec token_orig pos   morph lemma dephead
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -809,7 +843,9 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## #   position &lt;int&gt;, country &lt;chr&gt;, latitude &lt;dbl&gt;, longitude &lt;dbl&gt;</code></pre>
 </section><section id="section-20" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb26"><code class="sourceCode r"><div class="sourceLine" id="cb26-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token, <span class="st">&quot;.+stä$&quot;</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb27"><code class="sourceCode r"><div class="sourceLine" id="cb27-1" data-line-number="1"><span class="co"># with many Uralic languages you get really far </span></div>
+<div class="sourceLine" id="cb27-2" data-line-number="2"><span class="co"># just by matching strings</span></div>
+<div class="sourceLine" id="cb27-3" data-line-number="3">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token, <span class="st">&quot;.+stä$&quot;</span>))</div></code></pre>
 <pre><code>## # A tibble: 2,304 x 25
 ##    token token_norm location time_rec token_orig pos   morph lemma dephead
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -830,7 +866,8 @@ document.getElementsByTagName('head')[0].appendChild(style);
 ## #   longitude &lt;dbl&gt;</code></pre>
 </section><section id="section-21" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb28"><code class="sourceCode r"><div class="sourceLine" id="cb28-1" data-line-number="1">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st">&quot;metsä&quot;</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">str_detect</span>(morph, <span class="st">&quot;CASE_Ill&quot;</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb29"><code class="sourceCode r"><div class="sourceLine" id="cb29-1" data-line-number="1"><span class="co"># another example</span></div>
+<div class="sourceLine" id="cb29-2" data-line-number="2">skn <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st">&quot;metsä&quot;</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">str_detect</span>(morph, <span class="st">&quot;CASE_Ill&quot;</span>))</div></code></pre>
 <pre><code>## # A tibble: 128 x 25
 ##    token token_norm location time_rec token_orig pos   morph lemma dephead
 ##    &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;  
@@ -866,29 +903,42 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <h2>Combining the approaches</h2>
 </section><section id="section-24" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb30"><code class="sourceCode r"><div class="sourceLine" id="cb30-1" data-line-number="1"><span class="kw">source</span>(<span class="st">&quot;https://raw.githubusercontent.com/langdoc/finnic_atlas/master/R/map_finnic.R&quot;</span>)</div>
-<div class="sourceLine" id="cb30-2" data-line-number="2"><span class="kw">frameWidget</span>(<span class="kw">map_finnic</span>(<span class="dv">1</span>))</div></code></pre>
-<div id="htmlwidget-a7632431d9006f36038d" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
-<script type="application/json" data-for="htmlwidget-a7632431d9006f36038d">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-19.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+<pre class="sourceCode r" id="cb31"><code class="sourceCode r"><div class="sourceLine" id="cb31-1" data-line-number="1"><span class="co"># Here I reuse a function I wrote long time ago</span></div>
+<div class="sourceLine" id="cb31-2" data-line-number="2"><span class="co"># you basically need to invent everything only once</span></div>
+<div class="sourceLine" id="cb31-3" data-line-number="3"><span class="co"># and most of the things someone else has already done</span></div>
+<div class="sourceLine" id="cb31-4" data-line-number="4"><span class="kw">source</span>(<span class="st">&quot;https://raw.githubusercontent.com/langdoc/finnic_atlas/master/R/map_finnic.R&quot;</span>)</div>
+<div class="sourceLine" id="cb31-5" data-line-number="5"><span class="kw">frameWidget</span>(<span class="kw">map_finnic</span>(<span class="dv">1</span>))</div></code></pre>
+<div id="htmlwidget-4f706bdcea1a53d696be" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4f706bdcea1a53d696be">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-19.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </section><section id="section-25" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb31"><code class="sourceCode r"><div class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</div>
-<div class="sourceLine" id="cb31-2" data-line-number="2"><span class="kw">library</span>(ggmap)</div>
-<div class="sourceLine" id="cb31-3" data-line-number="3"></div>
-<div class="sourceLine" id="cb31-4" data-line-number="4">finland &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">left =</span> <span class="dv">18</span>, <span class="dt">bottom =</span> <span class="dv">58</span>, <span class="dt">right =</span> <span class="dv">33</span>, <span class="dt">top =</span> <span class="dv">71</span>)</div>
-<div class="sourceLine" id="cb31-5" data-line-number="5">map &lt;-<span class="st"> </span><span class="kw">get_stamenmap</span>(finland, <span class="dt">zoom =</span> <span class="dv">5</span>, <span class="dt">maptype =</span> <span class="st">&quot;toner-lite&quot;</span>)</div>
-<div class="sourceLine" id="cb31-6" data-line-number="6"></div>
-<div class="sourceLine" id="cb31-7" data-line-number="7">clusters &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-8" data-line-number="8"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^(pl|pr|kl|kr)&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-9" data-line-number="9"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_norm, <span class="st">&quot;^.{2}&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-10" data-line-number="10"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-11" data-line-number="11"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>)</div>
-<div class="sourceLine" id="cb31-12" data-line-number="12"></div>
-<div class="sourceLine" id="cb31-13" data-line-number="13">clusters_rare &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-14" data-line-number="14"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^(sk|st|sp)&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-15" data-line-number="15"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_norm, <span class="st">&quot;^.{2}&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-16" data-line-number="16"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb31-17" data-line-number="17"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb32"><code class="sourceCode r"><div class="sourceLine" id="cb32-1" data-line-number="1"><span class="co"># If we want to build ggplot2-style maps, ggmap</span></div>
+<div class="sourceLine" id="cb32-2" data-line-number="2"><span class="co"># is probably the easiest option</span></div>
+<div class="sourceLine" id="cb32-3" data-line-number="3"><span class="kw">library</span>(ggmap)</div>
+<div class="sourceLine" id="cb32-4" data-line-number="4"></div>
+<div class="sourceLine" id="cb32-5" data-line-number="5"><span class="co"># We can get the area of Finland by defining coordinates for</span></div>
+<div class="sourceLine" id="cb32-6" data-line-number="6"><span class="co"># extremities of the bounding box</span></div>
+<div class="sourceLine" id="cb32-7" data-line-number="7">finland &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dt">left =</span> <span class="dv">18</span>, <span class="dt">bottom =</span> <span class="dv">58</span>, <span class="dt">right =</span> <span class="dv">33</span>, <span class="dt">top =</span> <span class="dv">71</span>)</div>
+<div class="sourceLine" id="cb32-8" data-line-number="8"></div>
+<div class="sourceLine" id="cb32-9" data-line-number="9"><span class="co"># this will download the map</span></div>
+<div class="sourceLine" id="cb32-10" data-line-number="10">map &lt;-<span class="st"> </span><span class="kw">get_stamenmap</span>(finland, <span class="dt">zoom =</span> <span class="dv">5</span>, <span class="dt">maptype =</span> <span class="st">&quot;toner-lite&quot;</span>)</div>
+<div class="sourceLine" id="cb32-11" data-line-number="11"></div>
+<div class="sourceLine" id="cb32-12" data-line-number="12"><span class="co"># Here we are picking up all those examples where </span></div>
+<div class="sourceLine" id="cb32-13" data-line-number="13"><span class="co"># these consonant clusters occur</span></div>
+<div class="sourceLine" id="cb32-14" data-line-number="14">clusters &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-15" data-line-number="15"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^(pl|pr|kl|kr)&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-16" data-line-number="16"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_norm, <span class="st">&quot;^.{2}&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-17" data-line-number="17"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-18" data-line-number="18"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>)</div>
+<div class="sourceLine" id="cb32-19" data-line-number="19"></div>
+<div class="sourceLine" id="cb32-20" data-line-number="20"><span class="co"># Here we are picking up all those examples where </span></div>
+<div class="sourceLine" id="cb32-21" data-line-number="21"><span class="co"># these consonant clusters occur, they are rarer,</span></div>
+<div class="sourceLine" id="cb32-22" data-line-number="22"><span class="co"># so the variable created is named accordingly.</span></div>
+<div class="sourceLine" id="cb32-23" data-line-number="23">clusters_rare &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-24" data-line-number="24"><span class="st">  </span><span class="kw">filter</span>(<span class="kw">str_detect</span>(token_norm, <span class="st">&quot;^(sk|st|sp)&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-25" data-line-number="25"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_norm, <span class="st">&quot;^.{2}&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-26" data-line-number="26"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb32-27" data-line-number="27"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>)</div></code></pre>
 </section><section id="section-26" class="slide level2">
 <h2></h2>
 <p><img src="winterschool_files/figure-revealjs/unnamed-chunk-21-1.png" width="3200" /></p>
@@ -897,27 +947,30 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <p><img src="winterschool_files/figure-revealjs/unnamed-chunk-22-1.png" width="3200" /></p>
 </section><section id="section-28" class="slide level2">
 <h2></h2>
+<!-- One thing I like very much is to define the queries we try to write in plain language, just to highlight that what we are trying to do is really just commonsense thing that in the end demands more linguistic knowledge than anything else -->
 <blockquote>
 <p>Variable <code>ts</code> in the word <em>metsä</em> can be found between phoneme sequences [e] and [ä]. The [e] has no variation in this context, but [ä] can be realized in various lengths or zero.</p>
 </blockquote>
 </section><section id="section-29" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb32"><code class="sourceCode r"><div class="sourceLine" id="cb32-1" data-line-number="1">metsa_plot &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st"> &quot;metsä&quot;</span> <span class="op">&amp;</span><span class="st">  </span>morph <span class="op">==</span><span class="st"> &quot;NUM_Sg|CASE_Nom&quot;</span>) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_orig, <span class="st">&quot;(?&lt;=e)[^äÄ]+(?=(ä|Ä|ä̀)?)&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_replace_all</span>(variable, <span class="st">&quot;§&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-5" data-line-number="5"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-6" data-line-number="6"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-7" data-line-number="7"><span class="st">  </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb32-9" data-line-number="9"><span class="st">  </span><span class="kw">addLabelOnlyMarkers</span>(<span class="op">~</span><span class="kw">jitter</span>(longitude, <span class="dv">20</span>), <span class="op">~</span><span class="kw">jitter</span>(latitude, <span class="dv">20</span>), </div>
-<div class="sourceLine" id="cb32-10" data-line-number="10">                      <span class="dt">label =</span>  <span class="op">~</span><span class="kw">as.character</span>(variable), </div>
-<div class="sourceLine" id="cb32-11" data-line-number="11">                      <span class="dt">labelOptions =</span> <span class="kw">labelOptions</span>(<span class="dt">noHide =</span> T, </div>
-<div class="sourceLine" id="cb32-12" data-line-number="12">                                                  <span class="dt">direction =</span> <span class="st">&#39;top&#39;</span>, </div>
-<div class="sourceLine" id="cb32-13" data-line-number="13">                                                  <span class="dt">textOnly =</span> T))</div></code></pre>
+<pre class="sourceCode r" id="cb33"><code class="sourceCode r"><div class="sourceLine" id="cb33-1" data-line-number="1"><span class="co"># This plot contains the occurrences of word metsä,</span></div>
+<div class="sourceLine" id="cb33-2" data-line-number="2"><span class="co"># but with the affricate only</span></div>
+<div class="sourceLine" id="cb33-3" data-line-number="3">metsa_plot &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(lemma <span class="op">==</span><span class="st"> &quot;metsä&quot;</span> <span class="op">&amp;</span><span class="st">  </span>morph <span class="op">==</span><span class="st"> &quot;NUM_Sg|CASE_Nom&quot;</span>) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-5" data-line-number="5"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_extract</span>(token_orig, <span class="st">&quot;(?&lt;=e)[^äÄ]+(?=(ä|Ä|ä̀)?)&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-6" data-line-number="6"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">variable =</span> <span class="kw">str_replace_all</span>(variable, <span class="st">&quot;§&quot;</span>, <span class="st">&quot;&quot;</span>)) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-7" data-line-number="7"><span class="st">  </span><span class="kw">select</span>(variable, <span class="kw">everything</span>()) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-8" data-line-number="8"><span class="st">  </span><span class="kw">distinct</span>(variable, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-9" data-line-number="9"><span class="st">  </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-10" data-line-number="10"><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb33-11" data-line-number="11"><span class="st">  </span><span class="kw">addLabelOnlyMarkers</span>(<span class="op">~</span><span class="kw">jitter</span>(longitude, <span class="dv">20</span>), <span class="op">~</span><span class="kw">jitter</span>(latitude, <span class="dv">20</span>), </div>
+<div class="sourceLine" id="cb33-12" data-line-number="12">                      <span class="dt">label =</span>  <span class="op">~</span><span class="kw">as.character</span>(variable), </div>
+<div class="sourceLine" id="cb33-13" data-line-number="13">                      <span class="dt">labelOptions =</span> <span class="kw">labelOptions</span>(<span class="dt">noHide =</span> T, </div>
+<div class="sourceLine" id="cb33-14" data-line-number="14">                                                  <span class="dt">direction =</span> <span class="st">&#39;top&#39;</span>, </div>
+<div class="sourceLine" id="cb33-15" data-line-number="15">                                                  <span class="dt">textOnly =</span> T))</div></code></pre>
 </section><section id="section-30" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb33"><code class="sourceCode r"><div class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">frameWidget</span>(metsa_plot, <span class="dt">height =</span> <span class="dv">700</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb34"><code class="sourceCode r"><div class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">frameWidget</span>(metsa_plot, <span class="dt">height =</span> <span class="dv">700</span>)</div></code></pre>
 <div id="htmlwidget-a8909ac5575c42c76781" style="width:100%;height:700px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-a8909ac5575c42c76781">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-24.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </section><section id="section-31" class="slide level2">
@@ -930,29 +983,32 @@ document.getElementsByTagName('head')[0].appendChild(style);
 <p><img data-src="kett021_ohra.png" /></p>
 </section><section id="section-33" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb34"><code class="sourceCode r"><div class="sourceLine" id="cb34-1" data-line-number="1">ohra_map &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb34-2" data-line-number="2"><span class="st">  </span><span class="kw">filter</span>(token_norm <span class="op">==</span><span class="st"> &quot;ohra&quot;</span>) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb34-3" data-line-number="3"><span class="st">  </span><span class="kw">distinct</span>(token, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb34-4" data-line-number="4"><span class="st">  </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb34-5" data-line-number="5"><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></div>
-<div class="sourceLine" id="cb34-6" data-line-number="6"><span class="st">  </span><span class="kw">addLabelOnlyMarkers</span>(<span class="op">~</span>longitude, <span class="op">~</span>latitude, </div>
-<div class="sourceLine" id="cb34-7" data-line-number="7">                      <span class="dt">label =</span>  <span class="op">~</span><span class="kw">as.character</span>(token), </div>
-<div class="sourceLine" id="cb34-8" data-line-number="8">                      <span class="dt">labelOptions =</span> <span class="kw">labelOptions</span>(<span class="dt">noHide =</span> T, </div>
-<div class="sourceLine" id="cb34-9" data-line-number="9">                                                  <span class="dt">direction =</span> <span class="st">&#39;top&#39;</span>, </div>
-<div class="sourceLine" id="cb34-10" data-line-number="10">                                                  <span class="dt">textOnly =</span> T))</div></code></pre>
+<pre class="sourceCode r" id="cb35"><code class="sourceCode r"><div class="sourceLine" id="cb35-1" data-line-number="1"><span class="co"># This is a comparable map for word &#39;ohra&#39;, now</span></div>
+<div class="sourceLine" id="cb35-2" data-line-number="2"><span class="co"># with whole word</span></div>
+<div class="sourceLine" id="cb35-3" data-line-number="3">ohra_map &lt;-<span class="st"> </span>skn <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb35-4" data-line-number="4"><span class="st">  </span><span class="kw">filter</span>(token_norm <span class="op">==</span><span class="st"> &quot;ohra&quot;</span>) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb35-5" data-line-number="5"><span class="st">  </span><span class="kw">distinct</span>(token, location, <span class="dt">.keep_all =</span> <span class="ot">TRUE</span>) <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb35-6" data-line-number="6"><span class="st">  </span><span class="kw">leaflet</span>() <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb35-7" data-line-number="7"><span class="st">  </span><span class="kw">addTiles</span>() <span class="op">%&gt;%</span></div>
+<div class="sourceLine" id="cb35-8" data-line-number="8"><span class="st">  </span><span class="kw">addLabelOnlyMarkers</span>(<span class="op">~</span>longitude, <span class="op">~</span>latitude, </div>
+<div class="sourceLine" id="cb35-9" data-line-number="9">                      <span class="dt">label =</span>  <span class="op">~</span><span class="kw">as.character</span>(token), </div>
+<div class="sourceLine" id="cb35-10" data-line-number="10">                      <span class="dt">labelOptions =</span> <span class="kw">labelOptions</span>(<span class="dt">noHide =</span> T, </div>
+<div class="sourceLine" id="cb35-11" data-line-number="11">                                                  <span class="dt">direction =</span> <span class="st">&#39;top&#39;</span>, </div>
+<div class="sourceLine" id="cb35-12" data-line-number="12">                                                  <span class="dt">textOnly =</span> T))</div></code></pre>
 </section><section id="section-34" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb35"><code class="sourceCode r"><div class="sourceLine" id="cb35-1" data-line-number="1"><span class="kw">frameWidget</span>(ohra_map, <span class="dt">height =</span> <span class="dv">700</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb36"><code class="sourceCode r"><div class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">frameWidget</span>(ohra_map, <span class="dt">height =</span> <span class="dv">700</span>)</div></code></pre>
 <div id="htmlwidget-754cc314852bf2f5c8aa" style="width:100%;height:700px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-754cc314852bf2f5c8aa">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-26.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </section></section>
 <section><section id="back-to-komi" class="title-slide slide level1"><h1>Back to Komi</h1></section><section id="section-35" class="slide level2">
 <h2></h2>
-<pre class="sourceCode r" id="cb36"><code class="sourceCode r"><div class="sourceLine" id="cb36-1" data-line-number="1"><span class="kw">frameWidget</span>(komi_settlements)</div></code></pre>
+<pre class="sourceCode r" id="cb37"><code class="sourceCode r"><div class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">frameWidget</span>(komi_settlements)</div></code></pre>
 <div id="htmlwidget-3ac7ba759528cc775403" style="width:100%;height:2400px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-3ac7ba759528cc775403">{"x":{"url":"winterschool_files/figure-revealjs//widgets/widget_unnamed-chunk-28.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 </section><section id="question" class="slide level2">
 <h2>Question</h2>
+<!-- Rest of the slides are just glimpses to my ongoing Komi research, and cannot be reproduced as such. I wanted to add more content, but I had 15 minutes and had to keep it compact. Anyway there was a with to have some Komi material, so there it is. -->
 <blockquote>
 <p>Verbs in third person plural can have varying realization in the past tense: muniny ~ munisny ~ muninys ~ munisnys are all legit. What is going on?</p>
 </blockquote>
